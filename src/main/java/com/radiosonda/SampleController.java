@@ -1,6 +1,6 @@
-package com.bettercoding.jfx;
+package com.radiosonda;
 
-import com.bettercoding.jfx.services.SumService;
+import com.radiosonda.services.SumService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

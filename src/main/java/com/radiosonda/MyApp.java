@@ -1,4 +1,4 @@
-package com.bettercoding.jfx;
+package com.radiosonda;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

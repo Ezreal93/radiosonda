@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="206.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <BorderPane prefHeight="186.0" prefWidth="424.0">
+         <top>
+            <Label contentDisplay="RIGHT" prefHeight="20.0" prefWidth="420.0" text="Paso 1. Verificacion de la comunicacion" textAlignment="CENTER" BorderPane.alignment="TOP_LEFT">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <VBox prefHeight="54.0" prefWidth="620.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TextArea prefHeight="95.0" prefWidth="600.0" text="Asegurese de que el receptor esta conectado a la PC. A continuacion, seleccione el puerto en el cual se encuentra conectado el dispositivo. &#10;" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TextArea>
+                  <ComboBox fx:id="portSelector" onAction="#onPortSelected" prefWidth="421.0" promptText="Seleccionar puerto" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </content>
+</DialogPane>

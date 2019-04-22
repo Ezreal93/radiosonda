@@ -21,6 +21,9 @@ repositories {
 }
 
 dependencies {
+
     compile("org.springframework.boot:spring-boot-starter")
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'io.reactivex.rxjava2:rxjavafx:2.2.2'
+    compile 'com.fazecast:jSerialComm:2.4.2'
 }

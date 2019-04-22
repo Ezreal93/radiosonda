@@ -28,11 +28,15 @@ public class MyApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        fxmlLoader.setLocation(getClass().getResource("/fxml/sample.fxml"));
-        rootNode = fxmlLoader.load();
 
+        fxmlLoader.setLocation(getClass().getResource("/fxml/Scene.fxml"));
+        rootNode = fxmlLoader.load();
         primaryStage.setTitle("Hello World");
-        Scene scene = new Scene(rootNode, 800, 600);
+
+        Scene scene = new Scene(rootNode);
+        scene.getStylesheets().add("/styles/styles.css");
+
+        primaryStage.setTitle("Radiosonda FX");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

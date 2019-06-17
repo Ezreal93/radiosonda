@@ -10,6 +10,10 @@ public class SondeData {
     public boolean isValid;
     public LocalTime timestamp;
 
+    public SondeData setTimestamp(LocalTime timestamp) {
+        this.timestamp = timestamp;
+        return this;
+    }
 
     public SondeData setPressure(double pressure) {
         this.pressure = pressure;
@@ -38,6 +42,7 @@ public class SondeData {
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
                 ", isValid=" + isValid +
+                ", timestamp=" + timestamp +
                 '}';
     }
 

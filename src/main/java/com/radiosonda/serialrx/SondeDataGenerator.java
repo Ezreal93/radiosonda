@@ -1,5 +1,6 @@
 package com.radiosonda.serialrx;
 
+import java.time.LocalTime;
 import java.util.Random;
 
 public class SondeDataGenerator {
@@ -17,9 +18,10 @@ public class SondeDataGenerator {
         this.random = new Random();
     }
 
-    public SondeData generate() {
+    public SondeData generate(LocalTime timestamp) {
         SondeData sondeData = new SondeData()
                 .setValid(true)
+                .setTimestamp(timestamp)
                 .setHumidity(generateRandomNumber(humidity, humidityVariance))
                 .setPressure(generateRandomNumber(pressure, pressureVariance))
                 .setTemperature(generateRandomNumber(temperature, temperatureVariance));

@@ -9,7 +9,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import io.reactivex.Flowable;
@@ -91,11 +93,9 @@ public class FXMLController implements Initializable {
 
     private void onSondeDataReceived(SondeData sondeData){
         System.out.println(sondeData);
-        System.out.println("pirru sucks dick");
-
         setControlsData(sondeData);
         appendToCharts(sondeData);
-        //todo agregar a estructura
+        appendToSessionRecord(sondeData);
     }
 
     private void setControlsData(SondeData sondeData){
@@ -113,7 +113,14 @@ public class FXMLController implements Initializable {
         });
     }
 
-    
+    private List<SondeData> sessionRecords = new ArrayList<>();
+
+    private void appendToSessionRecord(SondeData sondeData){
+        sessionRecords.add(sondeData);
+    }
+
+
+
     @FXML
     public void openAction(ActionEvent event)  throws IOException{
         chooseFile();
@@ -174,10 +181,14 @@ public class FXMLController implements Initializable {
 
     @FXML
     void onFinishSession(ActionEvent event) {
-        //todo Detener captura
-        //todo Guardar archivo
-        //todo deshabilitar controles
+        subscription.dispose();
+        setDisabled(true);
+        saveFile();
     }
 
 
+    private void saveFile(){
+        System.out.println(sessionRecords);
+        //todo Guardar archivo
+    }
 }

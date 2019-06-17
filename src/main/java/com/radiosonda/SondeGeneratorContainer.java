@@ -18,7 +18,7 @@ public class SondeGeneratorContainer {
             SondeDataGenerator sondeDataGenerator = new SondeDataGenerator();
             interval = new FlowableInterval(1, 1, TimeUnit.SECONDS, Schedulers.single());
             sondeData = interval.map(aLong -> LocalTime.now())
-                    .map(localTime -> sondeDataGenerator.generate());
+                    .map(sondeDataGenerator::generate);
         }
         return sondeData;
     }

@@ -3,6 +3,7 @@ package com.radiosonda.new_project_wizard;
 import java.io.IOException;
 import java.util.HashMap;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.DialogPane;
 import com.radiosonda.wizard.ContextDialog;
@@ -22,11 +23,16 @@ public class NewProjectWizardStep2 extends ContextDialog {
         
         this.setDialogPane(pane);   
         this.setResultConverter((param) -> {
-            if (param.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+            if (param.getButtonData() == ButtonBar.ButtonData.OK_DONE && controller.port != null) {
                 HashMap<String, String> result = new HashMap<>();
                 result.put("port", controller.port);
                 return result;            
             } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText(null);
+                alert.setContentText("Data unavailable!");
+                alert.showAndWait();
                 return null;
             }
         });

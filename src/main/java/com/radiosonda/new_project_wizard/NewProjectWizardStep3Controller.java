@@ -1,15 +1,23 @@
 package com.radiosonda.new_project_wizard;
 
-import com.radiosonda.serialrx.CharStreamToLines;
-import com.radiosonda.serialrx.DataExtractor;
-import com.radiosonda.serialrx.SimpleSerialPort;
+import com.radiosonda.SondeGeneratorContainer;
+import com.radiosonda.serialrx.*;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.operators.flowable.FlowableInterval;
+import io.reactivex.internal.operators.observable.ObservableInterval;
 import io.reactivex.schedulers.Schedulers;
+
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ButtonBar;
@@ -23,12 +31,8 @@ import javafx.scene.control.TextField;
  * @author manuel
  */
 public class NewProjectWizardStep3Controller implements Initializable {
+    public Disposable subscription;
 
-    public static SimpleSerialPort port;
-    public static Disposable subscription;
-    private String selectedPort;
-    
-       
     @FXML
     private DialogPane pane;
 
@@ -40,35 +44,33 @@ public class NewProjectWizardStep3Controller implements Initializable {
 
     @FXML
     private TextField temperatureField;
-    
+
     public void setSelectedPort(String selectedPort) {
-        this.selectedPort = selectedPort;
-        pressureField.setText(selectedPort);
-        temperatureField.setText(selectedPort);
-        humidityField.setText(selectedPort);
-        
-    }   
+        subscription = SondeGeneratorContainer.createSondeFlowable().subscribe(this::updateSondeData);
+    }
+
+
+    private void updateSondeData(SondeData sondeData){
+        System.out.println(sondeData);
+        Platform.runLater(()->{
+            pressureField.setText(String.valueOf(sondeData.pressure));
+            humidityField.setText(String.valueOf(sondeData.humidity));
+            temperatureField.setText(String.valueOf(sondeData.temperature));
+        });
+    }
+
 
     /**
      * Initializes the controller class.
      */
-    
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         pane.getButtonTypes()
                 .add(new ButtonType("Finalizar", ButtonBar.ButtonData.OK_DONE));
         pane.getButtonTypes()
                 .add(new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE));
-
-        Flowable<Character> myObservable = Flowable.create((emitter) -> {
-            port = new SimpleSerialPort(selectedPort);            
-            port.setOnDataReceivedListener((Character data) -> {
-                emitter.onNext(data);
-            });
-        }, BackpressureStrategy.BUFFER);
-        
-//        ArrayList<Character> arrayList = new ArrayList<>(1024);
-    
-        System.out.println("init");
+        System.out.println("stuff initialized");
     }
 }

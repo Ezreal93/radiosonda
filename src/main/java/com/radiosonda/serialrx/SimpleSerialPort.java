@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 
 public class SimpleSerialPort {
 
-    private final SerialPort commPort;
-    private OutputStream outputStream;
+    private volatile  SerialPort commPort;
+    private volatile OutputStream outputStream;
 
     public static String[] getPorts() {
         Stream<SerialPort> stream = Arrays.stream(SerialPort.getCommPorts());
@@ -57,12 +57,15 @@ public class SimpleSerialPort {
             @Override
             public void serialEvent(SerialPortEvent event) {
                 char c = (char) event.getReceivedData()[0];
+                System.out.println("at reciver" + c);
                 callback.accept(c);
             }
         });
-        
+
+        System.out.println(commPort.isOpen());
         if(!commPort.isOpen()){
             commPort.openPort();
+            System.out.println(commPort.isOpen());
         }
     }
 

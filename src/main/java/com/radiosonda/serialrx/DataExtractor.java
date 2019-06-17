@@ -22,7 +22,7 @@ public class DataExtractor {
     }
     
 
-    SondeData extract(String validInput) {   
+    public SondeData extract(String validInput) {
         Matcher matcher = pattern.matcher(validInput);
         
         int checksum;

@@ -22,6 +22,7 @@ public class NewProjectWizardStep3 extends ContextDialog {
         
         this.setDialogPane(pane);
         this.setResultConverter((param) -> {
+            controller.subscription.dispose();
             if (param.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
                 return new HashMap<>();
             } else {

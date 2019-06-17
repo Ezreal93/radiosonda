@@ -46,6 +46,7 @@ public class NewProjectWizardStep2Controller implements Initializable {
         String[] ports = SimpleSerialPort.getPorts();
         ObservableList<String> options = FXCollections.observableArrayList(ports);
         portSelector.setItems(options);
+        System.out.println("select initilized");
     }    
     
 }

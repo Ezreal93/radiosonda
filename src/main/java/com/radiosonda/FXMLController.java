@@ -83,6 +83,7 @@ public class FXMLController implements Initializable {
         wizard.start().ifPresent((results)->{                   // muestra uno por uno los wizardstep
             this.sessionContext = results;
             System.out.println(results);                        // imprime el hashmap 
+            this.initializeGraphs(sessionContext.get("probe"));
             setDisabled(false);
             subscription = SondeGeneratorContainer.createSondeFlowable().subscribe(this::onSondeDataReceived);
         });
@@ -153,19 +154,21 @@ public class FXMLController implements Initializable {
         finishButton.setDisable(state);
     }
 
+    private void initializeGraphs(String sessionName){
+        temperatureVsPressureSeries = new XYChart.Series();
+        temperatureVsPressureSeries.setName(sessionName);
+        temperatureVsPressure.getData().addAll(temperatureVsPressureSeries);
+
+        humidityVsPressureSeries = new XYChart.Series();
+        humidityVsPressureSeries.setName(sessionName);
+        humidityVsPressure.getData().addAll(humidityVsPressureSeries);
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         setDisabled(true);
-        temperatureVsPressureSeries = new XYChart.Series();
-        temperatureVsPressureSeries.setName("Session Actual");
-        temperatureVsPressureSeries.getData().add(new XYChart.Data(200 , 0));
-        temperatureVsPressure.getData().addAll(temperatureVsPressureSeries);
-
-        humidityVsPressureSeries = new XYChart.Series();
-        humidityVsPressureSeries.setName("Session Actual");
-        humidityVsPressureSeries.getData().add(new XYChart.Data(200 , 50));
-        humidityVsPressure.getData().addAll(humidityVsPressureSeries);
     }
 
 

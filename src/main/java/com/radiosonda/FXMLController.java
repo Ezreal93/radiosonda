@@ -1,18 +1,18 @@
 package com.radiosonda;
 
 import com.radiosonda.serialrx.SondeData;
+import com.radiosonda.storage.SondeDataStorage;
 import com.radiosonda.wizard.Wizard;
 import com.radiosonda.new_project_wizard.NewProjectWizardFactory;
 import com.radiosonda.wizard.ContextDialog;
+
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -24,10 +24,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
@@ -182,13 +179,41 @@ public class FXMLController implements Initializable {
     @FXML
     void onFinishSession(ActionEvent event) {
         subscription.dispose();
-        setDisabled(true);
         saveFile();
     }
 
 
     private void saveFile(){
         System.out.println(sessionRecords);
-        //todo Guardar archivo
+        try {
+            showFileDialog(true).ifPresent(file -> new SondeDataStorage().setFile(file).setSessionData(sessionRecords).save());
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Save status");
+            alert.setHeaderText(null);
+            alert.setContentText("The file was saved successfully");
+            alert.showAndWait();
+
+            setDisabled(true);
+        }catch(Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save status");
+            alert.setHeaderText(null);
+            alert.setContentText("The file could not be saved");
+            alert.showAndWait();
+        }
     }
+
+
+    private Optional<File> showFileDialog(boolean isSave) {
+        FileChooser fileChooser = new FileChooser();
+        File file;
+        if (isSave) {
+            file = fileChooser.showSaveDialog(null);
+        } else {
+            file = fileChooser.showOpenDialog(null);
+        }
+        return Optional.ofNullable(file);
+    }
+
 }
